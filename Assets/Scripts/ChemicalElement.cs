@@ -17,7 +17,7 @@ public class ChemicalElement : MonoBehaviour
 
     [Header("Other")]
     [Tooltip("The bigger this is, the larger the space between shells")]
-    public int shellRadius = 2;
+    public float shellRadius;
 
     void Start()
     {
@@ -54,10 +54,5 @@ public class ChemicalElement : MonoBehaviour
                 Instantiate(electronPrefab, Random.onUnitSphere * thisShellRadius, Quaternion.identity, this.transform);
             }
         }
-    }
-
-    void Update()
-    {
-
     }
 }
