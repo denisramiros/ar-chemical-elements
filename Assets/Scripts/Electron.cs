@@ -7,10 +7,10 @@ public class Electron : MonoBehaviour
     public float speed;
 
     Vector3 axis;
-
-    void Start()
+    private void Start()
     {
-        axis = new Vector3(Random.Range(0, 1f), Random.Range(0, 1f), Random.Range(0, 1f));
+        transform.LookAt(transform.parent.position);
+        axis = Random.Range(0, 2) == 0 ? transform.right : transform.up;
     }
 
     void Update()
