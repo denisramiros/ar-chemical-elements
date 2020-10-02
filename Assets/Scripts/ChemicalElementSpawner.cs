@@ -12,6 +12,6 @@ public class ChemicalElementSpawner : MonoBehaviour
     /// <param name="electronConfiguration">"electron_configuration" field in the JSON</param>
     public void Spawn(int number, float atomicMass, string electronConfiguration)
     {
-
+        Debug.Log("Spawn element: " + number + " " + atomicMass + " " + electronConfiguration);
     }
 }
