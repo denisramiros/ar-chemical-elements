@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using UnityEngine;
 
 public class ChemicalElement : MonoBehaviour
@@ -19,39 +17,39 @@ public class ChemicalElement : MonoBehaviour
     [Tooltip("The bigger this is, the larger the space between shells")]
     public float shellRadius;
 
-    void Start()
+    private void Start()
     {
         Generate();
     }
 
-    void Generate()
+    private void Generate()
     {
-        int protons = number;
-        int electrons = number;
-        int neutrons = Mathf.RoundToInt(atomicMass) - protons;//N = Z - A
-        int nucleusRadius = 3;//TODO, should be lerped depending on particles in neutron
+        var protons = number;
+        var electrons = number;
+        var neutrons = Mathf.RoundToInt(atomicMass) - protons; //N = Z - A
+        const int nucleusRadius = 3; //TODO, should be lerped depending on particles in neutron
 
         for (var i = 0; i < protons; i++)
-            Instantiate(protonPrefab, Random.insideUnitSphere * nucleusRadius, Quaternion.identity, this.transform);
+            Instantiate(protonPrefab, Random.insideUnitSphere * nucleusRadius, Quaternion.identity, transform);
 
         for (var i = 0; i < neutrons; i++)
-            Instantiate(neutronPrefab, Random.insideUnitSphere * nucleusRadius, Quaternion.identity, this.transform);
+            Instantiate(neutronPrefab, Random.insideUnitSphere * nucleusRadius, Quaternion.identity, transform);
 
-        int[] shells = new int[8];//how many electrons on each shell
+        var shells = new int[8]; //how many electrons on each shell
 
         electronConfiguration.Split(' ').ToList().ForEach(s =>
         {
-            int shell = int.Parse(s[0].ToString()) - 1;
-            int electronsOnShell = int.Parse(s.Substring(2));
+            var shell = int.Parse(s[0].ToString()) - 1;
+            var electronsOnShell = int.Parse(s.Substring(2));
             shells[shell] += electronsOnShell;
         });
 
         for (var i = 0; i < shells.Length; i++)
         {
-            float thisShellRadius = nucleusRadius + (i + 1) * shellRadius;
+            var thisShellRadius = nucleusRadius + (i + 1) * shellRadius;
             for (var j = 0; j < shells[i]; j++)
             {
-                Instantiate(electronPrefab, Random.onUnitSphere * thisShellRadius, Quaternion.identity, this.transform);
+                Instantiate(electronPrefab, Random.onUnitSphere * thisShellRadius, Quaternion.identity, transform);
             }
         }
     }

@@ -1,20 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Electron : MonoBehaviour
 {
     public float speed;
 
-    Vector3 axis;
+    private Vector3 _axis;
+    
     private void Start()
     {
         transform.LookAt(transform.parent.position);
-        axis = Random.Range(0, 2) == 0 ? transform.right : transform.up;
+        _axis = Random.Range(0, 2) == 0 ? transform.right : transform.up;
     }
 
-    void Update()
+    private void Update()
     {
-        transform.RotateAround(transform.parent.position, axis, speed * Time.deltaTime);
+        transform.RotateAround(transform.parent.position, _axis, speed * Time.deltaTime);
     }
 }
