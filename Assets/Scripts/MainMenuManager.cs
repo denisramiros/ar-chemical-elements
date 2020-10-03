@@ -19,7 +19,9 @@ public class MainMenuManager : MonoBehaviour
         {
             addElementToScrollList(elementsJson.elements[i]);
         }
-        scrollView.verticalNormalizedPosition = 1;
+
+        scrollView.horizontalNormalizedPosition = 1;
+        //scrollView.verticalNormalizedPosition = 1;
     }
 
     // Update is called once per frame

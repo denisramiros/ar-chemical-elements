@@ -19,8 +19,8 @@ public class MenuListItem : MonoBehaviour, IPointerClickHandler
         {
             _element = value;
             nameText.text = value.name;
-            atomicMassText.text = "Atomic mass: \n" + value.atomic_mass;
-            numberText.text = "Number: \n" + value.number;
+            atomicMassText.text = "Atomic mass: " + value.atomic_mass;
+            numberText.text = "Number: " + value.number;
         } 
     }
 
