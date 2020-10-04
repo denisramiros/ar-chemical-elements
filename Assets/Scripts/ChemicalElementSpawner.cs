@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class ChemicalElementSpawner : MonoBehaviour
 {
+    public Transform chemicalElementPrefab;
+
+    private ChemicalElement currentElement;
+
     /// <summary>
     /// Will spawn the chemical element
     /// </summary>
@@ -12,6 +16,16 @@ public class ChemicalElementSpawner : MonoBehaviour
     /// <param name="electronConfiguration">"electron_configuration" field in the JSON</param>
     public void Spawn(int number, float atomicMass, string electronConfiguration)
     {
-        Debug.Log("Spawn element: " + number + " " + atomicMass + " " + electronConfiguration);
+        if (currentElement != null)
+            Destroy(currentElement.gameObject);
+        currentElement = Instantiate(chemicalElementPrefab).GetComponent<ChemicalElement>();
+        currentElement.number = number;
+        currentElement.atomicMass = atomicMass;
+        currentElement.electronConfiguration = electronConfiguration;
+    }
+
+    public void ToggleShells()
+    {
+        currentElement.ToggleShells();
     }
 }

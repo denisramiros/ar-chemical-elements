@@ -10,11 +10,12 @@ public class Electron : MonoBehaviour
     private void Start()
     {
         transform.LookAt(transform.parent.position);
-        axis = Random.Range(0, 2) == 0 ? transform.right : transform.up;
+        //transform.Rotate(0,0,Random.Range(0,180),Space.Self);
+        axis = transform.up;
     }
 
     void Update()
     {
-        transform.RotateAround(transform.parent.position, axis, speed * Time.deltaTime);
+        //transform.RotateAround(transform.parent.position, axis, speed * Time.deltaTime);
     }
 }
