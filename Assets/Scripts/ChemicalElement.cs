@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class ChemicalElement : MonoBehaviour
 {
@@ -22,7 +24,7 @@ public class ChemicalElement : MonoBehaviour
 
     private int shells;
     private List<GameObject> electronsList = new List<GameObject>();
-    private int nucleusRadius;
+    private float nucleusRadius;
 
     void Start()
     {
@@ -35,7 +37,7 @@ public class ChemicalElement : MonoBehaviour
         int protons = number;
         int electrons = number;
         int neutrons = Mathf.RoundToInt(atomicMass) - protons; //N = Z - A
-        nucleusRadius = 3; //TODO, should be lerped depending on particles in neutron
+        nucleusRadius = Mathf.InverseLerp(0, 100, number) * 7.5f + 0.5f; //calculated based on how many protons/neutron there are
 
         for (var i = 0; i < protons; i++)
             Instantiate(protonPrefab, Random.insideUnitSphere * nucleusRadius, Quaternion.identity, this.transform);
@@ -55,7 +57,6 @@ public class ChemicalElement : MonoBehaviour
         for (var i = 0; i < shells.Length; i++)
         {
             float thisShellRadius = nucleusRadius + (i + 1) * shellRadius;
-            print(thisShellRadius);
             if (shells[i] > 0)
                 this.shells++;
             for (var j = 0; j < shells[i]; j++)
@@ -96,7 +97,7 @@ public class ChemicalElement : MonoBehaviour
         });
 
         shellSphere.gameObject.SetActive(true);
-        float thisShellRadius = (nucleusRadius + (activeShell + 2) * shellRadius) * 2;
+        float thisShellRadius = (nucleusRadius + (activeShell + 1) * shellRadius) * 2;
         shellSphere.transform.localScale = new Vector3(thisShellRadius, thisShellRadius, thisShellRadius);
     }
 }

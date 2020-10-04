@@ -16,6 +16,6 @@ public class Electron : MonoBehaviour
 
     void Update()
     {
-        //transform.RotateAround(transform.parent.position, axis, speed * Time.deltaTime);
+        transform.RotateAround(transform.parent.position, axis, speed * Time.deltaTime);
     }
 }
