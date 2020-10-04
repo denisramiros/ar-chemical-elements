@@ -3,7 +3,17 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - ChemicalElement
+  - Shell0
+  - Shell1
+  - Shell2
+  - Shell3
+  - Shell4
+  - Shell5
+  - Shell6
+  - Shell7
+  - Shell8
   layers:
   - Default
   - TransparentFX

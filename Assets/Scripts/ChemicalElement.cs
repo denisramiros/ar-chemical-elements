@@ -1,25 +1,34 @@
-﻿using System.Linq;
+using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class ChemicalElement : MonoBehaviour
 {
     [Header("Chemical element properties")]
     public int number;
+
     public float atomicMass;
     public string electronConfiguration;
 
-    [Header("Particles prefabs")]
-    public Transform electronPrefab;
+    [Header("Particles prefabs")] public Transform electronPrefab;
     public Transform neutronPrefab;
     public Transform protonPrefab;
 
-    [Header("Other")]
-    [Tooltip("The bigger this is, the larger the space between shells")]
+    [Header("Other")] [Tooltip("The bigger this is, the larger the space between shells")]
     public float shellRadius;
+    
+    public Transform shellSphere;
+
+    private int _shells;
+    private readonly List<GameObject> _electronsList = new List<GameObject>();
+    private float _nucleusRadius;
+    private int _activeShell = -1;
 
     private void Start()
     {
         Generate();
+        shellSphere.gameObject.SetActive(false);
     }
 
     private void Generate()
@@ -27,14 +36,14 @@ public class ChemicalElement : MonoBehaviour
         var protons = number;
         var electrons = number;
         var neutrons = Mathf.RoundToInt(atomicMass) - protons; //N = Z - A
-        const int nucleusRadius = 3; //TODO, should be lerped depending on particles in neutron
+        _nucleusRadius = Mathf.InverseLerp(0, 100, number) * 7.5f + 0.5f; //calculated based on how many protons/neutron there are
 
         for (var i = 0; i < protons; i++)
-            Instantiate(protonPrefab, Random.insideUnitSphere * nucleusRadius, Quaternion.identity, transform);
+            Instantiate(protonPrefab, Random.insideUnitSphere * _nucleusRadius, Quaternion.identity, transform);
 
         for (var i = 0; i < neutrons; i++)
-            Instantiate(neutronPrefab, Random.insideUnitSphere * nucleusRadius, Quaternion.identity, transform);
-
+            Instantiate(neutronPrefab, Random.insideUnitSphere * _nucleusRadius, Quaternion.identity, transform);
+        
         var shells = new int[8]; //how many electrons on each shell
 
         electronConfiguration.Split(' ').ToList().ForEach(s =>
@@ -46,11 +55,46 @@ public class ChemicalElement : MonoBehaviour
 
         for (var i = 0; i < shells.Length; i++)
         {
-            var thisShellRadius = nucleusRadius + (i + 1) * shellRadius;
+            var thisShellRadius = _nucleusRadius + (i + 1) * shellRadius;
+            if (shells[i] > 0)
+                _shells++;
             for (var j = 0; j < shells[i]; j++)
             {
-                Instantiate(electronPrefab, Random.onUnitSphere * thisShellRadius, Quaternion.identity, transform);
+                var e = Instantiate(electronPrefab, Random.onUnitSphere * thisShellRadius, Quaternion.identity,
+                    transform).gameObject;
+                e.tag = "Shell" + i;
+                _electronsList.Add(e);
             }
         }
+    }
+
+    public void ToggleShells()
+    {
+        _activeShell++;
+
+        //when reaching last shell, enable all the shells
+        if (_activeShell >= _shells)
+        {
+            _activeShell = -1;
+            _electronsList.ForEach(e => e.SetActive(true));
+            shellSphere.gameObject.SetActive(false);
+            return;
+        }
+
+        _electronsList.ForEach(e =>
+        {
+            if (e.CompareTag($"Shell{_activeShell}"))
+            {
+                e.gameObject.SetActive(true);
+            }
+            else
+            {
+                e.SetActive(false);
+            }
+        });
+
+        shellSphere.gameObject.SetActive(true);
+        var thisShellRadius = (_nucleusRadius + (_activeShell + 1) * shellRadius) * 2;
+        shellSphere.transform.localScale = new Vector3(thisShellRadius, thisShellRadius, thisShellRadius);
     }
 }

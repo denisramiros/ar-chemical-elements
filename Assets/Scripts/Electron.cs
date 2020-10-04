@@ -9,7 +9,8 @@ public class Electron : MonoBehaviour
     private void Start()
     {
         transform.LookAt(transform.parent.position);
-        _axis = Random.Range(0, 2) == 0 ? transform.right : transform.up;
+        // transform.Rotate(0, 0, Random.Range(0, 180), Space.Self);
+        _axis = transform.up;
     }
 
     private void Update()
