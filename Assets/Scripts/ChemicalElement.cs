@@ -11,11 +11,13 @@ public class ChemicalElement : MonoBehaviour
     public float atomicMass;
     public string electronConfiguration;
 
-    [Header("Particles prefabs")] public Transform electronPrefab;
+    [Header("Particles prefabs")]
+    public Transform electronPrefab;
     public Transform neutronPrefab;
     public Transform protonPrefab;
 
-    [Header("Other")] [Tooltip("The bigger this is, the larger the space between shells")]
+    [Header("Other")]
+    [Tooltip("The bigger this is, the larger the space between shells")]
     public float shellRadius;
     
     public Transform shellSphere;

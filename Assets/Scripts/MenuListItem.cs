@@ -24,6 +24,8 @@ public class MenuListItem : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        GameObject.Find("ElementSpawner").GetComponent<ChemicalElementSpawner>().Spawn(Element.number, Element.atomic_mass, Element.electron_configuration);
+        // GameObject.Find("ElementSpawner").GetComponent<ChemicalElementSpawner>().Spawn(Element.number, Element.atomic_mass, Element.electron_configuration);
+        GameObject.Find("AR Session Origin").GetComponent<PlaceOnPlane>().ElementToPlace = _element;
+        Debug.Log("Assigned");
     }
 }
