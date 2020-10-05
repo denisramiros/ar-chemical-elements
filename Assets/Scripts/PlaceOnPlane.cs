@@ -7,6 +7,8 @@ using UnityEngine.XR.ARSubsystems;
 [RequireComponent(typeof(ARRaycastManager))]
 public class PlaceOnPlane : MonoBehaviour
 {
+    public GameObject placeholderSphere;
+    
     public Element ElementToPlace { get; set; }
 
     private ARRaycastManager _mRaycastManager;
@@ -53,7 +55,9 @@ public class PlaceOnPlane : MonoBehaviour
         
             if (spawnedObject == null)
             {
-                GameObject.Find("ElementSpawner").GetComponent<ChemicalElementSpawner>().Spawn(ElementToPlace.number, ElementToPlace.atomic_mass, ElementToPlace.electron_configuration);
+                // GameObject.Find("ElementSpawner").GetComponent<ChemicalElementSpawner>().Spawn(ElementToPlace.number, ElementToPlace.atomic_mass, ElementToPlace.electron_configuration);
+                // Instantiate sphere for reference of size
+                spawnedObject = Instantiate(placeholderSphere, hitPose.position, hitPose.rotation);
             }
             else
             {
