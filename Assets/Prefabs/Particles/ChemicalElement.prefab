@@ -131,5 +131,7 @@ MonoBehaviour:
   electronPrefab: {fileID: 3591411725344441205, guid: 59a82e2cb52cca14b97dcdbfe8326061, type: 3}
   neutronPrefab: {fileID: 8971847481991004101, guid: ea6be54dedacbef4c9e3a580fa0a7669, type: 3}
   protonPrefab: {fileID: 6129942708336588254, guid: 6aa22806b051a4345897336fdeafc426, type: 3}
-  shellRadius: 5
+  shellRadius: 0.06
+  nucleusMinRadius: 0.006
+  nucleusMaxGrow: 0.05
   shellSphere: {fileID: 4836906379107987556}

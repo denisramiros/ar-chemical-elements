@@ -11,15 +11,16 @@ public class ChemicalElement : MonoBehaviour
     public float atomicMass;
     public string electronConfiguration;
 
-    [Header("Particles prefabs")]
-    public Transform electronPrefab;
+    [Header("Particles prefabs")] public Transform electronPrefab;
     public Transform neutronPrefab;
     public Transform protonPrefab;
 
-    [Header("Other")]
-    [Tooltip("The bigger this is, the larger the space between shells")]
+    [Header("Other")] [Tooltip("The bigger this is, the larger the space between shells")]
     public float shellRadius;
-    
+
+    public float nucleusMinRadius = 0.006f;
+    public float nucleusMaxGrow = 0.1f;
+
     public Transform shellSphere;
 
     private int _shells;
@@ -38,14 +39,15 @@ public class ChemicalElement : MonoBehaviour
         var protons = number;
         var electrons = number;
         var neutrons = Mathf.RoundToInt(atomicMass) - protons; //N = Z - A
-        _nucleusRadius = Mathf.InverseLerp(0, 100, number) * 7.5f + 0.5f; //calculated based on how many protons/neutron there are
+        _nucleusRadius =
+            Mathf.InverseLerp(0, 100, number) * nucleusMaxGrow + nucleusMinRadius; //calculated based on how many protons/neutron there are
 
         for (var i = 0; i < protons; i++)
             Instantiate(protonPrefab, Random.insideUnitSphere * _nucleusRadius, Quaternion.identity, transform);
 
         for (var i = 0; i < neutrons; i++)
             Instantiate(neutronPrefab, Random.insideUnitSphere * _nucleusRadius, Quaternion.identity, transform);
-        
+
         var shells = new int[8]; //how many electrons on each shell
 
         electronConfiguration.Split(' ').ToList().ForEach(s =>
